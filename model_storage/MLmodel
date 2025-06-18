@@ -1,0 +1,46 @@
+artifact_path: file:///home/runner/work/coba-coba-workflow/coba-coba-workflow/MLProject/mlruns/0/models/m-b3b578e5244e46e4908497ab924bd6a1/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.17
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.0
+is_signature_from_type_hint: false
+mlflow_version: 3.1.0
+model_id: m-b3b578e5244e46e4908497ab924bd6a1
+model_size_bytes: 456994
+model_uuid: m-b3b578e5244e46e4908497ab924bd6a1
+prompts: null
+run_id: f54bae80644b4663b9d44cd4b77c66f7
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "double", "name": "age", "required": true}, {"type": "double",
+    "name": "avg_glucose_level", "required": true}, {"type": "double", "name": "bmi",
+    "required": true}, {"type": "boolean", "name": "gender_Male", "required": true},
+    {"type": "boolean", "name": "gender_Other", "required": true}, {"type": "boolean",
+    "name": "hypertension_1", "required": true}, {"type": "boolean", "name": "heart_disease_1",
+    "required": true}, {"type": "boolean", "name": "ever_married_Yes", "required":
+    true}, {"type": "boolean", "name": "work_type_Never_worked", "required": true},
+    {"type": "boolean", "name": "work_type_Private", "required": true}, {"type": "boolean",
+    "name": "work_type_Self-employed", "required": true}, {"type": "boolean", "name":
+    "work_type_children", "required": true}, {"type": "boolean", "name": "Residence_type_Urban",
+    "required": true}, {"type": "boolean", "name": "smoking_status_formerly smoked",
+    "required": true}, {"type": "boolean", "name": "smoking_status_never smoked",
+    "required": true}, {"type": "boolean", "name": "smoking_status_smokes", "required":
+    true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-06-18 00:42:45.447296'
