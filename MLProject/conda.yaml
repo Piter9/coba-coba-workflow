@@ -1,0 +1,13 @@
+name: msml-env
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - scikit-learn
+  - pandas
+  - numpy
+  - pip
+  - argparse
+  - pip:
+    - mlflow
+    - dagshub
