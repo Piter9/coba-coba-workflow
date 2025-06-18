@@ -1,0 +1,64 @@
+name: Train and Deploy MLflow Model
+
+on:
+  push:
+    paths:
+      - "MLProject/**"
+  workflow_dispatch:
+
+jobs:
+  train-model:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r MLProject/requirements.txt
+          pip install mlflow scikit-learn pandas
+
+      - name: Run MLflow Project
+        working-directory: ./MLProject
+        run: |
+          export MLFLOW_ARTIFACT_URI=file://$(pwd)/mlruns
+          mlflow run . --env-manager=local -P data_path="healthcare-dataset-stroke_preprocessing.csv"
+
+      - name: Upload Model Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: MLProject/mlruns/
+
+      - name: List isi folder mlruns
+        run: |
+          echo "=== Daftar isi folder mlruns/0 ==="
+          ls -R MLProject/mlruns/0/models || echo "Folder kosong"
+          
+      - name: Get latest RUN_ID
+        id: get_run_id
+        working-directory: MLProject
+        run: |
+          RUN_ID=$(ls -Art mlruns/0/models | grep -v meta.yaml | tail -n 1)
+          echo "Latest RUN_ID: $RUN_ID"
+          echo "RUN_ID=$RUN_ID" >> $GITHUB_OUTPUT
+          
+      - name: Copy model artifact
+        run: |
+          mkdir -p model_storage
+          cp -r MLProject/mlruns/0/models/${{ steps.get_run_id.outputs.RUN_ID }}/artifacts/* model_storage/
+
+      - name: Commit model artifact
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add model_storage/
+          git commit -m "Add model artifact from run ${{ steps.get_run_id.outputs.RUN_ID }}"
+          git push origin main
